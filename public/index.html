@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    .rant {
+      border: 1px solid darkblue;
+      border-radius: 16px;
+      margin: 16px;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="rants">
+
+  </div>
+
+  <script>
+    window.onload = () => {
+      refetch()      
+    }
+
+    function refetch() {
+      // imperative
+      fetch('http://localhost:3000/rants')
+        .then(response => response.json())
+        .then(rants => {
+          const rantsDiv = document.querySelector('#rants')
+          rantsDiv.innerHTML = ''
+          
+          for (const rant of rants) {
+            rantsDiv.innerHTML += /* html */`
+              <div class="rant">
+                <p>${rant.grievance}</p>
+                <small>- ranted by ${rant.nickname}</small>
+              </div>
+            `
+          }
+
+          setTimeout(refetch, 5_000) // using setInterval is wrong
+        })
+    }
+  </script>
+</body>
+</html>
